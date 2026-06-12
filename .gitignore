@@ -3,3 +3,5 @@ __pycache__/
 .env
 data/telco_churn.csv
 data/benchmarks.joblib
+.DS_Store
+.DS_Store

@@ -9,8 +9,20 @@ import os
 import json
 from google import genai
 
-# Set your key as an env var: export GEMINI_API_KEY="..."
-client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+
+def _get_api_key():
+    """Read the Gemini key from an env var (local) or Streamlit secrets (cloud)."""
+    key = os.environ.get("GEMINI_API_KEY")
+    if key:
+        return key
+    try:
+        import streamlit as st
+        return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        return None
+
+
+client = genai.Client(api_key=_get_api_key())
 
 MODEL = "gemini-2.5-flash"
 

@@ -10,10 +10,30 @@ import pandas as pd
 import numpy as np
 import joblib
 import shap
+import os
 
 from src.llm_layer import generate_insight
 
 st.set_page_config(page_title="Churn Whisperer", page_icon="🎯", layout="wide")
+
+
+# ---------- bootstrap: ensure data + model exist (for cloud deploy) ----------
+@st.cache_resource
+def ensure_artifacts():
+    """If running somewhere without the data/model (e.g. Streamlit Cloud),
+    generate a synthetic sample dataset and train the model on first launch."""
+    os.makedirs("data", exist_ok=True)
+    if not os.path.exists("data/telco_churn.csv"):
+        from src.sample_data import make_sample
+        make_sample().to_csv("data/telco_churn.csv", index=False)
+    if not os.path.exists("data/churn_model.joblib"):
+        import src.train_model as tm
+        tm.main()
+    return True
+
+
+ensure_artifacts()
+
 
 # ---------- load artifacts ----------
 @st.cache_resource
