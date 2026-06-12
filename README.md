@@ -1,29 +1,39 @@
-# 🎯 Churn Whisperer
+# Churn Whisperer
 
-**An AI agent that doesn't just predict churn — it explains *why* a specific customer is at risk and drafts the email to save them.**
+**An AI agent that doesn't just predict churn - it explains *why* a specific customer is at risk and drafts the email to save them.**
 
 Most churn projects stop at a number. A score of `0.82` tells a customer success manager *nothing* about what to do next. Churn Whisperer closes that gap: it pairs a churn model with per-customer explainability and an LLM action layer, turning a prediction into a decision and a draft.
-
-🔗 **[Live demo](#)** · 🎥 **[30-sec walkthrough](#)**
 
 ---
 
 ## The problem (product framing)
 
-> CS and RevOps teams sit on churn scores they can't act on. By the time a human reads the dashboard, segments the at-risk users, figures out *why* each one is leaving, and writes a personal save email — the customer is already gone.
+> CS and RevOps teams sit on churn scores they can't act on. By the time a human reads the dashboard, segments the at-risk users, figures out *why* each one is leaving, and writes a personal save email - the customer is already gone.
 
 **Users:** Customer Success Managers, RevOps analysts.
-**Job to be done:** "When an account looks shaky, help me understand why and respond — fast — without writing every email from scratch."
+**Job to be done:** "When an account looks shaky, help me understand why and respond - fast - without writing every email from scratch."
 
 ## What it does
 
 1. **Scores** churn risk per customer (XGBoost, AUC ~0.87).
-2. **Explains** the top drivers for *that individual* customer using SHAP — not global feature importance, but "here's why *this* person specifically is at risk." Each driver is **benchmarked against the full customer population** (e.g. "monthly charges in the 88th percentile" or "this segment churns at 1.5x the average"), so claims like "high" are grounded in data, not guessed.
-3. **Acts** — Gemini turns those drivers into a plain-English risk summary for the CSM *and* a tailored, ready-to-send retention email.
+2. **Explains** the top drivers for *that individual* customer using SHAP - not global feature importance, but "here's why *this* person specifically is at risk." Each driver is **benchmarked against the full customer population** (e.g. "monthly charges in the 88th percentile" or "this segment churns at 1.5x the average"), so claims like "high" are grounded in data, not guessed.
+3. **Acts** - Gemini turns those drivers into a plain-English risk summary for the CSM *and* a tailored, ready-to-send retention email.
+## About the data
 
+This demo runs on the **Telco Customer Churn** dataset - a well-known public dataset of ~7,000 telecom customers, each described by ~20 attributes: contract type, tenure, monthly and total charges, payment method, and the services they subscribe to (internet, tech support, online backup, etc.). Each row is labeled with whether that customer churned.
+
+It's a realistic stand-in for the kind of customer table a SaaS or subscription business actually has, which is why it's a common benchmark for churn modeling.
+
+
+### Why these features matter
+The strongest churn signals in this data are intuitive: month-to-month contracts, 
+short tenure, electronic-check payment, and the absence of support services all 
+push risk up. Churn Whisperer surfaces these *per customer* and benchmarks each one 
+against the full population, so an explanation reads "this segment churns at 1.4x 
+the average" rather than an unsupported "high."
 ## The metric it would move
 
-If shipped, Churn Whisperer is designed to cut the manual time a CSM spends triaging and drafting save outreach (from ~10 min/account to a one-click review), letting teams reach more at-risk accounts before they lapse — directly protecting renewal revenue in the high-risk segment.
+If shipped, Churn Whisperer is designed to cut the manual time a CSM spends triaging and drafting save outreach (from ~10 min/account to a one-click review), letting teams reach more at-risk accounts before they lapse - directly protecting renewal revenue in the high-risk segment.
 
 ## Architecture
 
@@ -75,5 +85,5 @@ streamlit run app.py
 
 ---
 
-*Built by Vaisnav Roy — MS Business Analytics, USC Marshall. Background in fintech & SaaS RevOps. [LinkedIn](https://linkedin.com/in/vaisnavroy) · [Portfolio](https://vaisnavroy.com)*
+*Built by Vaisnav Roy - MS Business Analytics, USC Marshall. Background in fintech & SaaS RevOps. [LinkedIn](https://linkedin.com/in/vaisnavroy) · [Portfolio](https://vaisnavroy.com)*
 
